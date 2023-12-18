@@ -1,7 +1,7 @@
 name: Docker
 on:
   schedule:
-    - cron: '18 23 * * *'
+    - cron: '18 23 * * 3'
   push:
     branches: [ "main" ]
 
@@ -15,7 +15,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-      id-token: write
 
     steps:
       - name: Checkout repository
