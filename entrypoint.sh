@@ -15,7 +15,7 @@ fi
 
 # Authorized keys
 umask 0077
-mkdir "$SSH_USER_HOME/.ssh"
+mkdir -p "$SSH_USER_HOME/.ssh"
 if [ -f "$SSH_USER_HOME/.ssh/authorized_keys" ]; then
     echo "SSH authorized keys found."
 elif [ -n "$AUTHORIZED_KEYS" ]; then
