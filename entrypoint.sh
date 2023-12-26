@@ -37,4 +37,9 @@ if [[ ! -f $KEY_DIR/ssh_host_rsa_key && ! -f $KEY_DIR/ssh_host_ecdsa_key && ! -f
     ssh-keygen -q -N "" -t ed25519 -f /config/ssh_host_ed25519_key
 fi
 
+# Extra ssh options
+if [[ -n "$SSH_EXTRA_OPTIONS" ]]; then
+    echo "$SSH_EXTRA_OPTIONS" >> /etc/ssh/sshd_config
+fi
+
 exec "$@"
