@@ -27,7 +27,6 @@ fi
 umask 0022
 
 chown $SSH_UID:$SSH_GID "$SSH_USER_HOME"
-chown -R "$SSH_UID":"$SSH_GID" "$SSH_USER_HOME/.ssh"
 
 # Host key creation
 KEY_DIR=/config
