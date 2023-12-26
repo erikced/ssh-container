@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim
 RUN apt-get update \
-    && apt-get install --yes --no-install-recommends openssh-server \
+    && apt-get install --yes --no-install-recommends openssh-server wget \
     && apt-get clean \
     && rm /etc/ssh/ssh_host*_key* \
     && sed -i \
