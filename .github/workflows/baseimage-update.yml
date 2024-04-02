@@ -22,11 +22,12 @@ jobs:
         run: |
           image_digest="$(curl https://hub.docker.com/v2/repositories/library/debian/tags/$BASE_IMAGE_TAG | jq -r .digest)"
           repo_digest="$(head -1 Dockerfile | cut -s -d@ -f2)"
-          if [[ "$image_digest" -ne "$repo_digest" ]]; then
-              sed -i "1s/.*/FROM debian:${BASE_IMAGE_TAG}@${image_digest}" Dockerfile
+          if [[ "$image_digest" != "$repo_digest" ]]; then
+              sed -i -e "1s/.*/FROM debian:${BASE_IMAGE_TAG}@${image_digest}/" Dockerfile
           fi
-          echo "::set-output name=old_digest::$old_digest"
-          echo "::set-output name=digest::$image_digest"
+
+          echo "old_digest=$repo_digest" >> $GITHUB_OUTPUT
+          echo "digest=$image_digest" >> $GITHUB_OUTPUT
         
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
