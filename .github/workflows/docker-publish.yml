@@ -4,6 +4,7 @@ on:
     - cron: '18 23 * * 3'
   push:
     branches: [ "main" ]
+  workflow_dispatch: {}
 
 env:
   REGISTRY: ghcr.io

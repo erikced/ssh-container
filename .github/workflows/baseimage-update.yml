@@ -11,6 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       contents: write
 
     steps:
@@ -33,4 +34,16 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Update baseimage to ${{ steps.update_digest.outputs.digest }}
+        if: steps.update_digest.outputs.old_digest != steps.update_digest.outputs.digest
+
+      - name: Trigger Docker publish workflow
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: 'erikced',
+              repo: 'ssh-container',
+              workflow_id: 79786035,
+              ref: 'main'
+            })
         if: steps.update_digest.outputs.old_digest != steps.update_digest.outputs.digest
