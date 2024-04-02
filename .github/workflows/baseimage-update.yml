@@ -1,0 +1,35 @@
+name: Baseimage update
+on:
+  schedule:
+    - cron: '14 22 * * 0'
+  workflow_dispatch: {}
+
+env:
+  BASE_IMAGE_TAG: bookworm-slim
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get image digests 
+        id: update_digest
+        run: |
+          image_digest="$(curl https://hub.docker.com/v2/repositories/library/debian/tags/$BASE_IMAGE_TAG | jq -r .digest)"
+          repo_digest="$(head -1 Dockerfile | cut -s -d@ -f2)"
+          if [[ "$image_digest" -ne "$repo_digest" ]]; then
+              sed -i "1s/.*/FROM debian:${BASE_IMAGE_TAG}@${image_digest}" Dockerfile
+          fi
+          echo "::set-output name=old_digest::$old_digest"
+          echo "::set-output name=digest::$image_digest"
+        
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update baseimage to ${{ steps.update_digest.outputs.digest }}
+        if: steps.update_digest.outputs.old_digest != steps.update_digest.outputs.digest

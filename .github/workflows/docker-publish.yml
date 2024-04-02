@@ -1,4 +1,4 @@
-name: Docker
+name: Docker publish
 on:
   schedule:
     - cron: '18 23 * * 3'
