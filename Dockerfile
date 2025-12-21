@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim@sha256:e899040a73d36e2b36fa33216943539d9957cba8172b858097c2cabcdb20a3e2
+FROM debian:trixie-slim@sha256:335d26b968695837d1566c442de2a4026049b26ecb8567be2b00f7a900c13637
 RUN apt-get update \
     && apt-get install --yes --no-install-recommends openssh-server wget \
     && apt-get clean \
