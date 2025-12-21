@@ -10,8 +10,6 @@ RUN apt-get update \
     && echo "HostKey /config/ssh_host_rsa_key" >> /etc/ssh/sshd_config \
     && echo "HostKey /config/ssh_host_ecdsa_key" >> /etc/ssh/sshd_config \
     && echo "HostKey /config/ssh_host_ed25519_key" >> /etc/ssh/sshd_config \
-    && umask 0077 \
-    && mkdir /run/sshd \
     && umask 0022 \
     && mkdir -p /config
 COPY entrypoint.sh /
